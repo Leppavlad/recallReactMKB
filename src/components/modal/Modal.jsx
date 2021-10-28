@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
 const Overlay = styled.div`
-  position: absolute;
+  position: fixed;
   z-index: 1000;
   top: 0;
   left: 0;
@@ -21,6 +21,7 @@ const Content = styled.div`
   min-height: 300px;
   padding: 30px;
   background-color: #fff;
+  transition: all 0.5s;
 
   .modal__close {
     position: absolute;
