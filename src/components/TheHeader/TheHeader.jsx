@@ -6,7 +6,8 @@ import styled from 'styled-components';
 import logo from '../../assets/icons/logo.png';
 import { ButtonCommon } from '../../ui/button/Button';
 
-import { Modal } from '../modal/Modal';
+// import { Modal } from '../modal/Modal';
+import { SignModal } from '../modalSignIn/SignIn';
 
 const HeaderSection = styled.section`
   position: fixed;
@@ -240,7 +241,8 @@ export const TheHeader = () => {
             <ButtonCommon mode="purple" onClick={toggleAuthModal}>
               Зайти в кабинет
             </ButtonCommon>
-            <Modal isOpen={authModalIsShown} onClose={toggleAuthModal}></Modal>
+            <SignModal isOpen={authModalIsShown} onClose={toggleAuthModal} />
+            {/* <Modal isOpen={authModalIsShown} onClose={toggleAuthModal}></Modal> */}
             <MobileToggler className="toggler" onClick={toggleMobileMenu}>
               <div style={{ userEvents: 'none' }}></div>
             </MobileToggler>

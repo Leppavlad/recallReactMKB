@@ -41,7 +41,7 @@ export class Modal extends React.Component {
     const { isOpen, onClose, children } = this.props;
     const closeModal = (e) => {
       const { target } = e;
-      if (!target.classList.contains('modal__content')) {
+      if (target.getAttribute('data-modal') === 'close') {
         onClose();
       }
     };
@@ -51,9 +51,13 @@ export class Modal extends React.Component {
     } else {
       document.querySelector('body').classList.add('overflow');
       return createPortal(
-        <Overlay onClick={closeModal}>
+        <Overlay onClick={closeModal} data-modal="close">
           <Content className="modal__content">
-            <button className="modal__close" onClick={closeModal}>
+            <button
+              className="modal__close"
+              onClick={closeModal}
+              data-modal="close"
+            >
               &times;
             </button>
             {children}
