@@ -6,8 +6,8 @@ import styled from 'styled-components';
 import logo from '../../assets/icons/logo.png';
 import { ButtonCommon } from '../../ui/button/Button';
 
-// import { Modal } from '../modal/Modal';
-import { SignModal } from '../modalSignIn/SignIn';
+import { ModalPretty } from '../modal/ModalPretty';
+import { SignForm } from '../signForm/SignForm';
 
 const HeaderSection = styled.section`
   position: fixed;
@@ -199,10 +199,10 @@ export const TheHeader = () => {
     changeMobileMenuState(!mobileMenu);
   };
 
-  //auth modal
-  const [authModalIsShown, toggleAuthModalVisibility] = useState(false);
-  const toggleAuthModal = () => {
-    toggleAuthModalVisibility(!authModalIsShown);
+  // signIn
+  const [signInOpenStatus, changeSignInOpenStatus] = useState(false);
+  const toggleSignInModal = () => {
+    changeSignInOpenStatus(!signInOpenStatus);
   };
 
   return (
@@ -238,11 +238,18 @@ export const TheHeader = () => {
                 </li>
               </ul>
             </HeaderMenu>
-            <ButtonCommon mode="purple" onClick={toggleAuthModal}>
-              Зайти в кабинет
+
+            <ButtonCommon mode="purple" onClick={toggleSignInModal}>
+              Авторизоваться
             </ButtonCommon>
-            <SignModal isOpen={authModalIsShown} onClose={toggleAuthModal} />
-            {/* <Modal isOpen={authModalIsShown} onClose={toggleAuthModal}></Modal> */}
+            <ModalPretty
+              isOpen={signInOpenStatus}
+              onClose={toggleSignInModal}
+              title="Авторизация"
+            >
+              <SignForm />
+            </ModalPretty>
+
             <MobileToggler className="toggler" onClick={toggleMobileMenu}>
               <div style={{ userEvents: 'none' }}></div>
             </MobileToggler>

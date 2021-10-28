@@ -5,14 +5,7 @@ import { TheHeader } from './components/TheHeader/TheHeader';
 import { MainPage } from './pages/main/Main';
 import { ContactPage } from './pages/contact/Contact';
 
-import { Modal } from './components/modal/Modal';
-
 function App() {
-  const [modalIsOpen, toggleIsOpen] = useState(false);
-  const toggleModal = () => {
-    console.log('Toggle');
-    toggleIsOpen();
-  };
   return (
     <div className="App">
       <Router>
@@ -26,11 +19,6 @@ function App() {
           </Route>
         </Switch>
       </Router>
-      <Modal
-        message="Some message"
-        isOpen={modalIsOpen}
-        onClose={toggleModal}
-      />
     </div>
   );
 }

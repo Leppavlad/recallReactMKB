@@ -1,71 +1,65 @@
 import React from 'react';
-import { createPortal } from 'react-dom';
-
+import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 
-const Overlay = styled.div`
-  position: fixed;
+const ModalBackground = styled.div`
   z-index: 1000;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4);
+  width: 100vw;
   display: grid;
   place-content: center;
+  background: rgba(0, 0, 0, 0.5);
 `;
-const Content = styled.div`
+
+const ModalWrapper = styled.div`
   position: relative;
   min-width: 300px;
-  max-width: 600px;
   min-height: 300px;
   padding: 30px;
-  background-color: #fff;
-  transition: all 0.5s;
-
-  .modal__close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    border: none;
-    background: none;
-    font-size: 34px;
-    cursor: pointer;
-  }
+  background: #fff;
 `;
 
-export class Modal extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    const { isOpen, onClose, children } = this.props;
-    const closeModal = (e) => {
-      const { target } = e;
-      if (target.getAttribute('data-modal') === 'close') {
-        onClose();
-      }
-    };
-    if (!isOpen) {
-      document.querySelector('body').classList.remove('overflow');
-      return null;
-    } else {
-      document.querySelector('body').classList.add('overflow');
-      return createPortal(
-        <Overlay onClick={closeModal} data-modal="close">
-          <Content className="modal__content">
-            <button
-              className="modal__close"
-              onClick={closeModal}
-              data-modal="close"
-            >
-              &times;
-            </button>
-            {children}
-          </Content>
-        </Overlay>,
-        document.querySelector('body')
-      );
+const ModalTitle = styled.h2`
+  text-transform: uppercase;
+`;
+const ModalContent = styled.div``;
+
+const ModalClose = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-content: center;
+  font-size: 34px;
+  cursor: pointer;
+`;
+
+export const Modal = ({ onClose, title, children, className }) => {
+  const closeModal = (event) => {
+    const { target } = event;
+    if (target.getAttribute('data-modal') === 'close') {
+      onClose();
     }
-  }
-}
+  };
+
+  const modalMarkup = (
+    <ModalBackground
+      className={className}
+      data-modal="close"
+      onClick={closeModal}
+    >
+      <ModalWrapper>
+        <ModalClose onClick={onClose}>&times;</ModalClose>
+        <ModalTitle>{title}</ModalTitle>
+        <ModalContent>{children}</ModalContent>
+      </ModalWrapper>
+    </ModalBackground>
+  );
+
+  return ReactDOM.createPortal(modalMarkup, document.body);
+};
