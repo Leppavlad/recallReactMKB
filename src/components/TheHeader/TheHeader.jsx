@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import logo from '../../assets/icons/logo.png';
 import { ButtonCommon } from '../../ui/button/Button';
 
+import { Modal } from '../modal/Modal';
+
 const HeaderSection = styled.section`
   position: fixed;
   z-index: 999;
@@ -189,11 +191,19 @@ export const TheHeader = () => {
       header.classList.remove('dark');
     }
   });
-  const [mobileMenu, changeMobileMenuState] = useState(false);
 
+  // mobileMenu
+  const [mobileMenu, changeMobileMenuState] = useState(false);
   const toggleMobileMenu = () => {
     changeMobileMenuState(!mobileMenu);
   };
+
+  //auth modal
+  const [authModalIsShown, toggleAuthModalVisibility] = useState(false);
+  const toggleAuthModal = () => {
+    toggleAuthModalVisibility(!authModalIsShown);
+  };
+
   return (
     <>
       <HeaderSection className="header__section">
@@ -227,7 +237,10 @@ export const TheHeader = () => {
                 </li>
               </ul>
             </HeaderMenu>
-            <ButtonCommon mode="purple">Зайти в кабинет</ButtonCommon>
+            <ButtonCommon mode="purple" onClick={toggleAuthModal}>
+              Зайти в кабинет
+            </ButtonCommon>
+            <Modal isOpen={authModalIsShown} onClose={toggleAuthModal}></Modal>
             <MobileToggler className="toggler" onClick={toggleMobileMenu}>
               <div style={{ userEvents: 'none' }}></div>
             </MobileToggler>

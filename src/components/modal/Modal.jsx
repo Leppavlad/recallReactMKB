@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 const Overlay = styled.div`
   position: absolute;
+  z-index: 1000;
   top: 0;
   left: 0;
   width: 100vw;
@@ -23,27 +24,43 @@ const Content = styled.div`
 
   .modal__close {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: none;
+    font-size: 34px;
+    cursor: pointer;
   }
 `;
 
-export const Modal = ({ message, isOpen, onClose, children }) => {
-  if (!isOpen) {
-    document.querySelector('body').classList.remove('overflow');
-    return null;
-  } else {
-    document.querySelector('body').classList.add('overflow');
-    return createPortal(
-      <Overlay>
-        <Content>
-          <button className="modal__close" onClick={onClose}>
-            &times;
-          </button>
-          {children}
-        </Content>
-      </Overlay>,
-      document.querySelector('body')
-    );
+export class Modal extends React.Component {
+  constructor(props) {
+    super(props);
   }
-};
+  render() {
+    const { isOpen, onClose, children } = this.props;
+    const closeModal = (e) => {
+      const { target } = e;
+      if (!target.classList.contains('modal__content')) {
+        onClose();
+      }
+    };
+    if (!isOpen) {
+      document.querySelector('body').classList.remove('overflow');
+      return null;
+    } else {
+      document.querySelector('body').classList.add('overflow');
+      return createPortal(
+        <Overlay onClick={closeModal}>
+          <Content className="modal__content">
+            <button className="modal__close" onClick={closeModal}>
+              &times;
+            </button>
+            {children}
+          </Content>
+        </Overlay>,
+        document.querySelector('body')
+      );
+    }
+  }
+}
